@@ -1,29 +1,32 @@
 import argparse
-from pytube import YouTube
 from pathlib import Path
-from spleeter.separator import Separator
 import ffmpeg
+from yt_dlp import YoutubeDL
 
 
-def download_and_separate(url, output_dir):
-    yt = YouTube(url)
-    yt.streams.filter(file_extension='mp4').get_highest_resolution().download(output_path=output_dir, filename="out.mp4")
-
+def download_youtube(url, output_dir):
+    path_out_dir = Path(output_dir)
+    path_webm = path_out_dir / "out.webm"
+    ydl_opts = {
+        'format': 'bestvideo+bestaudio/best',
+        'outtmpl': str(path_webm)
+    }
+    with YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+    
     path_out_dir = Path(output_dir)
     path_mp4 = path_out_dir / "out.mp4"
     path_mp3 = path_out_dir / "out.mp3"
 
+    ffmpeg.input(str(path_webm)).output(str(path_mp4), vcodec="libx264").run()
     ffmpeg.input(str(path_mp4)).output(str(path_mp3)).run()
-
-    separator = Separator('spleeter:2stems')
-    separator.separate_to_file(str(path_mp3), str(path_out_dir), duration=1000)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='YouTubeの動画をダウンロードし、音声を分離します。')
     parser.add_argument('--url', '-i', type=str, help='YouTubeの動画URL')
-    parser.add_argument('--output-dir', '-o', type=str, default='.', help='出力先ディレクトリ')
+    parser.add_argument('--output-dir', '-o', type=str, default='./movie', help='出力先ディレクトリ')
 
     args = parser.parse_args()
 
-    download_and_separate(args.url, args.output_dir)
+    download_youtube(args.url, args.output_dir)
