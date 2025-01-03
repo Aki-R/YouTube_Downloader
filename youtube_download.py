@@ -13,7 +13,7 @@ def download_youtube(url, output_dir):
     }
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
-    
+
     path_out_dir = Path(output_dir)
     path_mp4 = path_out_dir / "out.mp4"
     path_mp3 = path_out_dir / "out.mp3"
