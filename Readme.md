@@ -45,13 +45,13 @@ python script.py --url <YouTubeの動画URL> --output-dir <出力先ディレク
 動画を指定したディレクトリにダウンロード：
 
 ```bash
-python script.py --url https://www.youtube.com/watch?v=example --output-dir ./downloads
+python youtube_download.py --url https://www.youtube.com/watch?v=example --output-dir ./downloads
 ```
 
 デフォルトディレクトリにダウンロード：
 
 ```bash
-python script.py --url https://www.youtube.com/watch?v=example
+python youtube_download.py --url https://www.youtube.com/watch?v=example
 ```
 
 ## 動作概要
