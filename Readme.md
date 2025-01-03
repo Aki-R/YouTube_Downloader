@@ -26,7 +26,7 @@ pip install yt-dlp ffmpeg-python
 以下のコマンドでスクリプトを実行します：
 
 ```bash
-python script.py --url <YouTubeの動画URL> --output-dir <出力先ディレクトリ>
+python youtube_download.py --url <YouTubeの動画URL> --output-dir <出力先ディレクトリ>
 ```
 ## 引数
 - --url または -i
